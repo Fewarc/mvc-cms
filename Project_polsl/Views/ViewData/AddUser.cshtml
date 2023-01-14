@@ -1,0 +1,26 @@
+﻿<div class="view-users-main">
+    <div class="flex view-users-title">
+        <div style="font-size: 52px;">Add user</div>
+    </div>
+    @using (Html.BeginForm("Create", "User", FormMethod.Post))
+        {
+            <div style="width: 100%" class="flex flex-col">
+                <div>Username</div>
+                <input type="text" name="username" id="username"/>
+            </div>
+            <div style="width: 100%" class="flex flex-col">
+                <div>Password</div>
+                <input type="password" name="password" id="password"/>
+            </div>
+            <div style="width: 100%" class="flex flex-col">
+                <div>Confirm password</div>
+                <input type="password" name="confirmPassword" id="confirmPassword"/>
+            </div>
+    
+            <input type="submit" value="Add user"/>
+        }
+        @if (ViewData["AddUserError"] != null)
+        {
+            <div class="error" style="margin-top: 40px;">@ViewData["AddUserError"].ToString()</div>
+        }
+</div>

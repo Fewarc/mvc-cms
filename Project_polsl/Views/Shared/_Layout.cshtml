@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - CMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/Project_polsl.styles.css" asp-append-version="true"/>
+</head>
+<body>
+<header>
+    <nav class="my-navbar flex items-center justify-between shadow">
+        <div class="">
+            <a class="navbar-brand" style="font-weight: bold; font-size: 36px" asp-area="" asp-controller="Home" asp-action="Index">CMS</a>
+        </div>
+        <div>
+            @if (@Accessor.HttpContext.Session.GetString("Username") != null)
+            {
+                <a asp-area="" asp-controller="User" asp-action="LogIn">
+                    @Accessor.HttpContext.Session.GetString("Username")
+                </a>
+            }
+        </div>
+    </nav>
+</header>
+<div class="my-main-container flex justify-center">
+    <main role="main" class="">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="my-footer flex justify-center">
+    @* <div class="" >&copy; 2023 - Project_polsl - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></div> *@
+    <div class="inner-footer flex items-center">
+        <div class="flex flex-col items-center">
+            <div style="font-size: 52px; font-weight: bold;">CMS</div>
+            <div>made using</div>
+            <div style="font-weight: bold;">.NET</div>
+            <div style="font-weight: bold;">EntityFramework</div>
+            <div style="font-weight: bold;">LinQ</div>
+        </div>
+        <div class="footer-section-2 flex justify-between">
+            <div class="flex flex-col ">
+                <a asp-area="" asp-controller="User" asp-action="ToLogIn">User Log In</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+            </div><div class="flex flex-col">
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+            </div><div class="flex flex-col">
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

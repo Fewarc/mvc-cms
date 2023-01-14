@@ -1,0 +1,21 @@
+﻿
+<div class="login-main flex flex-col justify-center items-center">
+    <div class="login-title">User Log In</div>
+    @using (Html.BeginForm("LogIn", "User", FormMethod.Post))
+    {
+        <div style="width: 100%" class="flex flex-col">
+            <div>Username</div>
+            <input type="text" name="username" id="username"/>
+        </div>
+        <div style="width: 100%" class="flex flex-col">
+            <div>Password</div>
+            <input type="password" name="password" id="password"/>
+        </div>
+
+        <input type="submit" value="Login"/>
+    }
+    @if (ViewData["LoginError"] != null)
+    {
+        <div class="error" style="margin-top: 40px;">@ViewData["LoginError"].ToString()</div>
+    }
+</div>

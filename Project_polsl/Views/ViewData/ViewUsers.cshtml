@@ -1,0 +1,20 @@
+﻿<div class="view-users-main">
+    <div class="flex view-users-title">
+        <div style="font-size: 52px;">Users</div>
+    </div>
+    <table class="users-table">
+        <tr>
+            <th>Username</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>
+                    <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "User")'" />
+                </td>
+            </tr>
+        }
+    </table>
+</div>

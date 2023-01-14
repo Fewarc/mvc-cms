@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<div class="flex flex-col">
+    <div class="dashboard-1 flex items-center justify-between" style="font-size: 52px;">
+        <div>Dashboard</div>
+        <div class="flex items-center">
+            <object type="image/svg+xml" data="~/svgs/user.svg" height="60" width="60"></object>
+            <div>
+                @Accessor.HttpContext.Session.GetString("Username")
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-2">
+        <a asp-area="" asp-controller="ViewData" asp-action="ViewUsers" class="dashboard-card flex items-center justify-between">
+            <object type="image/svg+xml" data="~/svgs/viewUsers.svg" height="40" width="40"></object>
+            <div>View all users</div>
+        </a>
+        <a asp-area="" asp-controller="ViewData" asp-action="AddUser" class="dashboard-card flex items-center justify-between">
+            <object type="image/svg+xml" data="~/svgs/addUser.svg" height="40" width="40"></object>
+            <div>Add user</div>
+        </a>
+        <a asp-area="" asp-controller="User" asp-action="ToLogIn" class="dashboard-card flex items-center justify-between">
+            <object type="image/svg+xml" data="~/svgs/viewPosts.svg" height="40" width="40"></object>
+            <div>View all posts</div>
+        </a>
+        <a asp-area="" asp-controller="User" asp-action="ToLogIn" class="dashboard-card flex items-center justify-between">
+            <object type="image/svg+xml" data="~/svgs/newPost.svg" height="40" width="40"></object>
+            <div>Add post</div>
+        </a>
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="dashboard-card flex items-center justify-between">
+            <object type="image/svg+xml" data="~/svgs/home.svg" height="40" width="40"></object>
+            <div>Home page</div>
+        </a>
+        <a asp-area="" asp-controller="User" asp-action="ToLogIn" class="dashboard-card flex items-center justify-between">
+            <object type="image/svg+xml" data="~/svgs/logOut.svg" height="40" width="40"></object>
+            <div>Log Out</div>
+        </a>
+    </div>
+</div>
