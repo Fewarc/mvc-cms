@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Projectpolsl.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230113174042_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20230114183047_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

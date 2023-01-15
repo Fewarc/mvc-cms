@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using Project_polsl.Models;
 
 namespace Project_polsl.Controllers;
 
@@ -26,6 +28,12 @@ public class ViewDataController : Controller
 
     public IActionResult AddUser()
     {
+        return View();
+    }
+    
+    public IActionResult AddPost()
+    {
+        HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(new Post()));
         return View();
     }
 }

@@ -56,8 +56,39 @@ public class UserController : Controller
         return RedirectToAction("ViewUsers", "ViewData");
     }
     
-    public IActionResult Create(string username)
+    public IActionResult Create(string username, string password, string confirmPassword)
     {
+        var user = _context.Users.FirstOrDefault(user => user.Username == username);
+        
+        if (user != null)
+        {
+            HttpContext.Session.SetString("AddUserError", "Username already in use!");
+            return RedirectToAction("AddUser", "ViewData");
+        }
+
+        if (password != confirmPassword)
+        {
+            HttpContext.Session.SetString("AddUserError", "Password confirm invalid!");
+            return RedirectToAction("AddUser", "ViewData");
+        }
+
+        if (username == null || password == null)
+        {
+            HttpContext.Session.SetString("AddUserError", "Invalid credentials!");
+            return RedirectToAction("AddUser", "ViewData");
+        }
+
+        var newUser = new User
+        {
+            Username = username,
+            Password = password
+        };
+
+        _context.Users.Add(newUser);
+        _context.SaveChanges();
+        
+        HttpContext.Session.Remove("AddUserError");
+        
         return View("Dashboard");
     }
 }

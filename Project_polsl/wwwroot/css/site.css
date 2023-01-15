@@ -176,7 +176,6 @@ main {
 .view-users-main {
   display: flex;
   flex-direction: column;
-  
 }
 
 .view-users-title {
@@ -195,4 +194,13 @@ td, th {
 
 .users-table {
   margin-top: 40px;
+}
+
+.add-section-button {
+  border-radius: 16px;
+  border: #565e64 solid 1px;
+  margin-right: 20px;
+  padding: 10px 16px;
+  gap: 12px;
+  font-size: 16px;
 }

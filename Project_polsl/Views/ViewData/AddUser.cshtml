@@ -1,8 +1,12 @@
-﻿<div class="view-users-main">
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<div class="view-users-main">
     <div class="flex view-users-title">
         <div style="font-size: 52px;">Add user</div>
     </div>
-    @using (Html.BeginForm("Create", "User", FormMethod.Post))
+    <div class="flex flex-col justify-center items-center" style="margin-top: 40px;">
+        @using (Html.BeginForm("Create", "User", FormMethod.Post))
         {
             <div style="width: 100%" class="flex flex-col">
                 <div>Username</div>
@@ -19,8 +23,9 @@
     
             <input type="submit" value="Add user"/>
         }
-        @if (ViewData["AddUserError"] != null)
+        @if (@Accessor.HttpContext.Session.GetString("AddUserError") != null)
         {
-            <div class="error" style="margin-top: 40px;">@ViewData["AddUserError"].ToString()</div>
+            <div class="error" style="margin-top: 40px;">@Accessor.HttpContext.Session.GetString("AddUserError")</div>
         }
+    </div>
 </div>
