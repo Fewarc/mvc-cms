@@ -1,34 +1,98 @@
-﻿<div class="view-users-main">
+﻿@using Microsoft.AspNetCore.Http
+@using System.Text.Json
+@inject IHttpContextAccessor Accessor
+
+@{
+    var newPost = JsonSerializer.Deserialize<NewPost>(
+        Accessor.HttpContext.Session.GetString("NewPost"));
+}
+
+<div class="view-users-main">
+    <a href="@Url.Action("ToLogIn", "User")" class="back-button flex items-center">
+        <object type="image/svg+xml" data="~/svgs/leftArrow.svg" height="16" width="16"></object>
+        <div>Back</div>
+    </a>
     <div class="flex view-users-title">
         <div style="font-size: 52px;">Add post</div>
     </div>
     <div style="margin: 20px 0px 0px 0px;">Post title:</div>
-    <input />
+    <input type="text" name="newPostTitle" id="newPostTitle" value="@newPost.GetTitle()"/>
+    <div style="margin: 20px 0px 0px 0px;">Post thumbnail:</div>
+    <div class="flex items-center">
+        <input type="file" name="newPostThumbnail" id="newPostThumbnail" accept="image/png, image/jpeg" class="image-input" style="display: none;"/>
+        <input type="button" value="Choose File" onclick="document.getElementById('newPostThumbnail').click()" style="width: fit-content;"/>
+        <div style="margin-left: 5px;">@newPost.PostData.Thumbnail.Split("/").Last()</div>
+    </div>
+    <div class="flex flex-col section-container">
+        @{
+            var sections = newPost.GetSections();
+
+            foreach (var (postSection, i) in sections.Select((value, i) => (value, i)))
+            {
+                <div class="section">
+                    @{
+                        if (postSection.Type == PostSection.SectionType.Text)
+                        {
+                            <textarea id="@i" class="section-text">@postSection.Content</textarea>
+                        }
+                        else
+                        {
+                            <div class="file-input flex items-center">
+                                <input 
+                                    id="@i" 
+                                    type="file" 
+                                    accept="image/png, image/jpeg" 
+                                    class="image-input" style="display: none;"
+                                />
+                                <input type="button" value="Choose File" onclick="document.getElementById(@i).click()"/>
+                                <div style="margin-left: 5px;">@postSection.ImagePath.Split("/").Last()</div>
+                            </div>
+                        }
+                    }
+                    <div class="section-title">
+                        <div>Section #@(i + 1)</div>
+                        <div>@postSection.Type.ToString()</div>
+                    </div>
+                    <a href="@Url.Action("DeleteSection", "ViewData", new { index = i })" class="section-delete" style="@(postSection.Type == PostSection.SectionType.Image ? "right: 0; transform: translateX(100%);" : "")">
+                        <img type="image/svg+xml" src="~/svgs/trash.svg" height="40" width="40"/>
+                    </a>
+                </div>
+            }
+        }
+    </div>
     <div style="margin: 20px 0px;">Add post section:</div>
-    <div class="flex">
-        <a asp-area="" asp-controller="" asp-action="" class="add-section-button flex items-center justify-between">
+    <div class="flex" style="margin-bottom: 60px;">
+        <a href="@Url.Action("AddSection", "ViewData", new { sectionType = "text" })" class="add-section-button flex items-center justify-between">
             <object type="image/svg+xml" data="~/svgs/A.svg" height="20" width="20"></object>
             <div>Text</div>
         </a>
-        <a asp-area="" asp-controller="" asp-action="" class="add-section-button flex items-center justify-between">
+        <a href="@Url.Action("AddSection", "ViewData", new { sectionType = "image" })" class="add-section-button flex items-center justify-between">
             <object type="image/svg+xml" data="~/svgs/camera.svg" height="20" width="20"></object>
             <div>Image</div>
         </a>
-        <a asp-area="" asp-controller="" asp-action="" class="add-section-button flex items-center justify-between">
-            <div class="flex items-center">
-                <object type="image/svg+xml" data="~/svgs/A.svg" height="20" width="20"></object>
-                <div>|</div>
-                <object type="image/svg+xml" data="~/svgs/camera.svg" height="20" width="20"></object>
-            </div>
-            <div>Text + Image</div>
-        </a>
-        <a asp-area="" asp-controller="" asp-action="" class="add-section-button flex items-center justify-between">
-            <div class="flex items-center">
-                <object type="image/svg+xml" data="~/svgs/camera.svg" height="20" width="20"></object>
-                <div>|</div>
-                <object type="image/svg+xml" data="~/svgs/A.svg" height="20" width="20"></object>
-            </div>
-            <div>Image + Text</div>
-        </a>
+        @* <a asp-area="" asp-controller="" asp-action="" class="add-section-button flex items-center justify-between"> *@
+        @*     <div class="flex items-center"> *@
+        @*         <object type="image/svg+xml" data="~/svgs/A.svg" height="20" width="20"></object> *@
+        @*         <div>|</div> *@
+        @*         <object type="image/svg+xml" data="~/svgs/camera.svg" height="20" width="20"></object> *@
+        @*     </div> *@
+        @*     <div>Text + Image</div> *@
+        @* </a> *@
+        @* <a asp-area="" asp-controller="" asp-action="" class="add-section-button flex items-center justify-between"> *@
+        @*     <div class="flex items-center"> *@
+        @*         <object type="image/svg+xml" data="~/svgs/camera.svg" height="20" width="20"></object> *@
+        @*         <div>|</div> *@
+        @*         <object type="image/svg+xml" data="~/svgs/A.svg" height="20" width="20"></object> *@
+        @*     </div> *@
+        @*     <div>Image + Text</div> *@
+        @* </a> *@
     </div>
+    @if (newPost.IsValid())
+    {
+        <div style="width: 100%; margin-bottom: 60px;" class="flex justify-center">
+            <a href="@Url.Action("", "", new { sectionType = "image" })" class="add-section-button flex items-center justify-between">
+                <div style="font-size: 24px;">Submit post</div>
+            </a>
+        </div>
+    }
 </div>

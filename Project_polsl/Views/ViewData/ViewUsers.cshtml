@@ -1,4 +1,8 @@
 ﻿<div class="view-users-main">
+    <a href="@Url.Action("ToLogIn", "User")" class="back-button flex items-center">
+        <object type="image/svg+xml" data="~/svgs/leftArrow.svg" height="16" width="16"></object>
+        <div>Back</div>
+    </a>
     <div class="flex view-users-title">
         <div style="font-size: 52px;">Users</div>
     </div>
@@ -12,7 +16,7 @@
             <tr>
                 <td>@user.Username</td>
                 <td>
-                    <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "User")'" />
+                    <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "User")'"/>
                 </td>
             </tr>
         }

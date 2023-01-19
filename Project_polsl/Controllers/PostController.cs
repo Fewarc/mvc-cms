@@ -7,8 +7,9 @@ namespace Project_polsl.Controllers;
 public class PostController : Controller
 {
     // public IActionResult 
-    public void AddPost()
+    public IActionResult AddPost(string text)
     {
-        
+        HttpContext.Session.SetString("TestString", text);
+        return RedirectToAction("AddPost", "ViewData");
     }
 }

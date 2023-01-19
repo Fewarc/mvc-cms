@@ -2,6 +2,10 @@
 @inject IHttpContextAccessor Accessor
 
 <div class="view-users-main">
+    <a href="@Url.Action("ToLogIn", "User")" class="back-button flex items-center">
+        <object type="image/svg+xml" data="~/svgs/leftArrow.svg" height="16" width="16"></object>
+        <div>Back</div>
+    </a>
     <div class="flex view-users-title">
         <div style="font-size: 52px;">Add user</div>
     </div>
@@ -20,7 +24,7 @@
                 <div>Confirm password</div>
                 <input type="password" name="confirmPassword" id="confirmPassword"/>
             </div>
-    
+
             <input type="submit" value="Add user"/>
         }
         @if (@Accessor.HttpContext.Session.GetString("AddUserError") != null)

@@ -9,7 +9,14 @@ public class PostSection
         TextImage,
         ImageText
     }
-    
+
+    public PostSection(SectionType type, string content, string imagePath)
+    {
+        Type = type;
+        Content = content;
+        ImagePath = imagePath;
+    }
+
     public int Id { set; get; }
     public int PostId { set; get; }
     public SectionType Type { set; get; }
