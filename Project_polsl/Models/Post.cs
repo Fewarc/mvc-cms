@@ -7,4 +7,6 @@ public class Post
     public string CreationDate { set; get; }
 
     public string Thumbnail { set; get; }
+
+    public ICollection<PostSection> Sections { set; get; }
 }

@@ -1,0 +1,41 @@
+﻿@model List<Post>
+
+@{
+    var posts = Model;
+}
+
+<div class="view-users-main">
+    <a href="@Url.Action("ToLogIn", "User")" class="back-button flex items-center">
+        <object type="image/svg+xml" data="~/svgs/leftArrow.svg" height="16" width="16"></object>
+        <div>Back</div>
+    </a>
+    <div class="flex view-users-title">
+        <div style="font-size: 52px;">Posts</div>
+    </div>
+    <table class="users-table">
+        <tr>
+            <th>Post Title</th>
+            <th>Posted</th>
+            <th>Actions</th>
+        </tr>
+        @if (posts.Count() > 0)
+        {
+            foreach (var post in posts)
+            {
+                <tr>
+                    <td>@post.Title</td>
+                    <td>@post.CreationDate</td>
+                    <td>
+                        <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "Post", new { title = post.Title, createdAt = post.CreationDate })'"/>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <td style="border: none;">
+                No posts found
+            </td>
+        }
+    </table>
+</div>

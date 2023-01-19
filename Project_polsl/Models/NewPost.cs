@@ -87,6 +87,11 @@ public class NewPost
 
     public Boolean IsValid()
     {
+        if (PostSections.Length == 0)
+        {
+            return false;
+        }
+        
         if (string.IsNullOrEmpty(PostData.Title) || string.IsNullOrEmpty(PostData.Thumbnail))
         {
             return false;

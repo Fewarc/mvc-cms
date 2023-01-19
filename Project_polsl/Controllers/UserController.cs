@@ -53,7 +53,10 @@ public class UserController : Controller
 
     public IActionResult Delete(string username)
     {
-        return RedirectToAction("ViewUsers", "ViewData");
+        _context.Remove(_context.Users.Single(user => user.Username == username));
+        _context.SaveChanges();
+        
+        return Redirect("/ViewData/ViewUsers");
     }
     
     public IActionResult Create(string username, string password, string confirmPassword)

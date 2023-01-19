@@ -21,7 +21,7 @@
     <div class="flex items-center">
         <input type="file" name="newPostThumbnail" id="newPostThumbnail" accept="image/png, image/jpeg" class="image-input" style="display: none;"/>
         <input type="button" value="Choose File" onclick="document.getElementById('newPostThumbnail').click()" style="width: fit-content;"/>
-        <div style="margin-left: 5px;">@newPost.PostData.Thumbnail.Split("/").Last()</div>
+        <div style="margin-left: 5px;">@newPost.PostData.Thumbnail?.Split("/").Last()</div>
     </div>
     <div class="flex flex-col section-container">
         @{
@@ -90,7 +90,7 @@
     @if (newPost.IsValid())
     {
         <div style="width: 100%; margin-bottom: 60px;" class="flex justify-center">
-            <a href="@Url.Action("", "", new { sectionType = "image" })" class="add-section-button flex items-center justify-between">
+            <a href="@Url.Action("SavePost", "Post")" class="add-section-button flex items-center justify-between">
                 <div style="font-size: 24px;">Submit post</div>
             </a>
         </div>

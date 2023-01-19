@@ -167,4 +167,10 @@ public class ViewDataController : Controller
 
         return RedirectToAction("AddPost");
     }
+
+    public IActionResult ViewPosts()
+    {
+        var posts = _context.Posts.ToList();
+        return View(posts);
+    }
 }

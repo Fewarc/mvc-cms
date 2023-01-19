@@ -1,4 +1,7 @@
-﻿<div class="view-users-main">
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<div class="view-users-main">
     <a href="@Url.Action("ToLogIn", "User")" class="back-button flex items-center">
         <object type="image/svg+xml" data="~/svgs/leftArrow.svg" height="16" width="16"></object>
         <div>Back</div>
@@ -16,7 +19,10 @@
             <tr>
                 <td>@user.Username</td>
                 <td>
-                    <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "User")'"/>
+                    @if (@Accessor.HttpContext.Session.GetString("Username") != user.Username)
+                    {
+                        <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "User", new { username = user.Username })'"/>
+                    }
                 </td>
             </tr>
         }
