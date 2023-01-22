@@ -14,13 +14,15 @@
 <body>
 <header>
     <nav class="my-navbar flex items-center justify-between shadow">
-        <div class="">
+        <div class="flex items-center" style="column-gap: 40px;">
             <a class="navbar-brand" style="font-weight: bold; font-size: 36px" asp-area="" asp-controller="Home" asp-action="Index">CMS</a>
+            <a asp-controller="Home" asp-action="">Home</a>
+            <a asp-controller="Post" asp-action="AllPosts">Posts</a>
         </div>
         <div>
             @if (@Accessor.HttpContext.Session.GetString("Username") != null)
             {
-                <a asp-area="" asp-controller="User" asp-action="LogIn">
+                <a asp-controller="User" asp-action="LogIn">
                     @Accessor.HttpContext.Session.GetString("Username")
                 </a>
             }
@@ -35,7 +37,7 @@
 
 <footer class="my-footer flex justify-center">
     @* <div class="" >&copy; 2023 - Project_polsl - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></div> *@
-    <div class="inner-footer flex items-center">
+    <div class="inner-footer flex">
         <div class="flex flex-col items-center">
             <div style="font-size: 52px; font-weight: bold;">CMS</div>
             <div>made using</div>
@@ -45,21 +47,11 @@
             <div style="font-weight: bold;">LinQ</div>
         </div>
         <div class="footer-section-2 flex justify-between">
-            <div class="flex flex-col ">
-                <a asp-area="" asp-controller="User" asp-action="ToLogIn">User Log In</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-            </div><div class="flex flex-col">
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-            </div><div class="flex flex-col">
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
-                <a asp-area="" asp-controller="Home" asp-action="">Random link</a>
+            <div class="flex" style="flex-wrap: wrap; padding-top: 40px; font-size: 20px; row-gap: 0px; column-gap: 20px;">
+                <a asp-controller="User" asp-action="ToLogIn">User Log In</a>
+                <a asp-controller="User" asp-action="LogOut">User Log Out</a>
+                <a asp-controller="Home" asp-action="">Home</a>
+                <a asp-controller="Post" asp-action="AllPosts">Posts</a>
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 using Project_polsl.Models;
 
 namespace Project_polsl.Controllers;
@@ -17,7 +18,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var posts = _context.Posts.OrderBy(post => post.CreationDate).Take(3).ToList();
+        return View(posts);
     }
 
     public IActionResult Privacy()

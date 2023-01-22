@@ -1,0 +1,26 @@
+﻿@model Post
+
+@{
+    var sections = Model.Sections; 
+}
+
+<div>
+    <div class="post-title">@Model.Title</div>
+    <div class="post-sections">
+        @foreach (var postSection in sections)
+        {
+            if (postSection.Type == PostSection.SectionType.Text)
+            {
+                <div class="post-text">
+                    @postSection.Content
+                </div>
+            }
+            else
+            {
+                var path = "/uploaded/" + postSection.ImagePath;
+                
+                <img  src="@path" alt="@path"/>
+            }
+        }
+    </div>
+</div>

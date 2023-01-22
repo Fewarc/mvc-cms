@@ -107,7 +107,7 @@ public class ViewDataController : Controller
     private async Task<string> saveImage(IFormFile file)
     {
         string imageName = Path.GetFileName(file.FileName);
-        string physicalPath = Path.Combine( ROOT_ROUTE + "/uploaded/" + imageName);
+        string physicalPath = Path.Combine(imageName);
 
         await using (Stream fileStream = new FileStream(physicalPath, FileMode.Create)) {
             await file.CopyToAsync(fileStream);

@@ -51,6 +51,13 @@ public class UserController : Controller
         }
     }
 
+    public IActionResult LogOut()
+    {
+        HttpContext.Session.Remove("Username");
+        
+        return Redirect("/Home/Index");
+    }
+
     public IActionResult Delete(string username)
     {
         _context.Remove(_context.Users.Single(user => user.Username == username));

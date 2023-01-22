@@ -1,8 +1,45 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@using System.Text.Json
+@inject IHttpContextAccessor Accessor
+@model List<Post>
+
+@{
     ViewData["Title"] = "Home Page";
+    var posts = Model;
+    var imagePath = @"uploaded/post_image.png";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <div class="home-title flex flex-col items-center justify-center">
+        <div>Welcome to CMS app</div>
+        <p>
+            A content management system (CMS) is an application that is used to manage content,
+            allowing multiple contributors to create, edit and publish.
+            Content in a CMS is typically stored in a database and displayed in a presentation
+            layer based on a set of templates like a website.
+        </p>
+    </div>
+    <div class="home-posts flex flex-col justify-center">
+        <h3>Most recent posts</h3>
+        <div class="flex flex-col items-center" style="row-gap: 20px;">
+            @foreach (var post in  posts)
+            {
+                var path = "/uploaded/" + post.Thumbnail;
+                
+                <a href="@Url.Action("ViewPost", "Post", new { id = post.Id })" class="post-card flex">
+                    <img src="@path" alt="@path" class="post-thumbnail"/>
+                    <div class="flex items-center" style="padding: 0px 20px; font-size: 36px; font-weight: lighter;">
+                        <div>
+                            @post.Title
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="flex justify-center items-center">
+        <a href="@Url.Action("AllPosts", "Post")" class="browse-posts">
+            Browse all posts
+        </a>
+    </div>
 </div>

@@ -53,4 +53,21 @@ public class PostController : Controller
 
         return Redirect("/User/ToLogIn");
     }
+
+    public IActionResult ViewPost(int id)
+    {
+        var postSections = _context.PostSections.Where(section => section.PostId == id).ToList();
+        var post = _context.Posts.FirstOrDefault(post => post.Id == id);
+
+        post.Sections = postSections;
+        
+        return View(post);
+    }
+
+    public IActionResult AllPosts()
+    {
+        var posts = _context.Posts.ToList();
+        
+        return View(posts);
+    }
 }

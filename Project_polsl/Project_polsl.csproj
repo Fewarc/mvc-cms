@@ -18,11 +18,19 @@
 
     <ItemGroup>
       <None Include="wwwroot\svgs\user.svg" />
+      <None Include="wwwroot\uploaded\Best-Times-to-Post-on-Social-Media-in-2022.jpg" />
+      <None Include="wwwroot\uploaded\istockphoto-1314544209-612x612.jpg" />
+      <None Include="wwwroot\uploaded\post_image.png" />
+      <None Include="wwwroot\uploaded\post_thumbnail.png" />
+      <None Include="wwwroot\uploaded\post_thumbnail_222222222.png" />
+      <None Include="wwwroot\uploaded\post_thumbnail_33333333.jpg" />
+      <None Include="wwwroot\uploaded\social-media-content.png" />
+      <None Include="wwwroot\uploaded\social_media_posting_schedule-2.jpg" />
+      <None Include="wwwroot\uploaded\types-of-social-media-posts.jpg" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Migrations" />
-      <Folder Include="uploaded" />
     </ItemGroup>
 
 </Project>
