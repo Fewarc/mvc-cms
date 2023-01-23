@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project_polsl.Models;
 
 namespace Project_polsl.Controllers;
@@ -13,7 +14,6 @@ public class PostController : Controller
         _context = context;
     }
 
-    // public IActionResult 
     public IActionResult AddPost(string text)
     {
         return RedirectToAction("AddPost", "ViewData");
@@ -56,7 +56,7 @@ public class PostController : Controller
 
     public IActionResult ViewPost(int id)
     {
-        var postSections = _context.PostSections.Where(section => section.PostId == id).ToList();
+        var postSections = _context.PostSections.Where(section => section.PostId == id).OrderBy(section => section.Id).ToList();
         var post = _context.Posts.FirstOrDefault(post => post.Id == id);
 
         post.Sections = postSections;
@@ -69,5 +69,50 @@ public class PostController : Controller
         var posts = _context.Posts.ToList();
         
         return View(posts);
+    }
+
+    public IActionResult EditPost(int id)
+    {
+        var post = _context.Posts.FirstOrDefault(post => post.Id == id);
+        var postSections = _context.PostSections.Where(postSection => postSection.PostId == id).OrderBy(section => section.Id).ToArray();
+
+        var editPost = new NewPost(post!, postSections);
+
+        if (HttpContext.Session.GetString("NewPost") != null)
+        {
+            var savedPost = JsonSerializer.Deserialize<NewPost>(HttpContext.Session.GetString("NewPost"));
+            
+            if (savedPost.PostData.Id != id)
+            {
+                HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(editPost));
+            }
+        }
+        else
+        {
+            HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(editPost));
+        }
+        
+        return View();
+    }
+
+    public IActionResult SaveChanges()
+    {
+        if (HttpContext.Session.GetString("NewPost") != null)
+        {
+            NewPost savedPost = JsonSerializer.Deserialize<NewPost>(HttpContext.Session.GetString("NewPost"));
+            Post record = _context.Posts.FirstOrDefault(post => post.Id == savedPost.PostData.Id);
+
+            record.Title = savedPost.GetTitle();
+            record.Thumbnail = savedPost.PostData.Thumbnail;
+            record.EditDate = DateTime.Now.ToString();
+            record.Sections = savedPost.PostSections;
+            _context.Entry(record).State = EntityState.Modified;
+
+            _context.SaveChanges();
+            
+            HttpContext.Session.Remove("NewPost");
+        }
+
+        return Redirect("/User/ToLogIn");
     }
 }

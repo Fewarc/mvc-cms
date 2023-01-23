@@ -33,7 +33,17 @@ public class ViewDataController : Controller
     
     public IActionResult AddPost()
     {
-        if (HttpContext.Session.GetString("NewPost") == null)
+        if (HttpContext.Session.GetString("NewPost") != null)
+        {
+            var post = JsonSerializer.Deserialize<NewPost>(HttpContext.Session.GetString("NewPost"));
+            
+            if (post.PostData.Id != 0)
+            {
+                HttpContext.Session.Remove("NewPost");
+                HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(new NewPost()));
+            }
+        }
+        else
         {
             HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(new NewPost()));
         }
@@ -41,19 +51,17 @@ public class ViewDataController : Controller
         return View();
     }
     
-    public IActionResult UpdateTitle(string text)
+    public void UpdateTitle(string text)
     {
         var newPost = JsonSerializer.Deserialize<NewPost>(HttpContext.Session.GetString("NewPost"));
 
         newPost.UpdatePostData(text, DateTime.Now.ToString());
         
         HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(newPost));
-        
-        return View("AddPost");
     }
 
     [Route("ViewData/AddSection/{sectionType}")]
-    public IActionResult AddSection(string sectionType)
+    public IActionResult AddSection(string sectionType, string redirect)
     {
         if (HttpContext.Session.GetString("NewPost") != null)
         {
@@ -71,11 +79,11 @@ public class ViewDataController : Controller
             HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(newPost));
         }
 
-        return Redirect("/ViewData/AddPost");
+        return Redirect(redirect);
     }
 
     [Route("ViewData/DeleteSection/{index:int}")]
-    public IActionResult DeleteSection(int index)
+    public IActionResult DeleteSection(int index, string redirect)
     {
         if (HttpContext.Session.GetString("NewPost") != null)
         {
@@ -86,10 +94,10 @@ public class ViewDataController : Controller
             HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(newPost));
         }
         
-        return Redirect("/ViewData/AddPost");
+        return Redirect(redirect);
     }
 
-    public IActionResult UpdateSection(string text, int id)
+    public void UpdateSection(string text, int id)
     {
         if (HttpContext.Session.GetString("NewPost") != null)
         {
@@ -99,21 +107,19 @@ public class ViewDataController : Controller
             
             HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(newPost));
         }
-        
-        return Redirect("/ViewData/AddPost");
     }
 
-    private const string ROOT_ROUTE = "C:/Users/berez/Desktop/src/mvc-cms/Project_polsl";
+    private const string ROOT_ROUTE = "C:/Users/berez/Desktop/src/mvc-cms/Project_polsl/wwwroot/uploaded/";
     private async Task<string> saveImage(IFormFile file)
     {
         string imageName = Path.GetFileName(file.FileName);
-        string physicalPath = Path.Combine(imageName);
+        string physicalPath = Path.Combine(ROOT_ROUTE + imageName);
 
         await using (Stream fileStream = new FileStream(physicalPath, FileMode.Create)) {
             await file.CopyToAsync(fileStream);
         }
 
-        return physicalPath;
+        return imageName;
     }
 
     private void deleteImage(string imagePath)
@@ -125,16 +131,15 @@ public class ViewDataController : Controller
     }
 
     [Route("ViewData/UpdateImageSection")]
-    public async Task<IActionResult> UpdateImageSection(IFormFile file, string id)
+    public void UpdateImageSection(IFormFile file, string id)
     {
         if (file == null)
         {
             Console.WriteLine("No file: ");
             Console.WriteLine(file);
-            
-            return Redirect("/ViewData/AddPost");;
         }
-        string physicalPath = await saveImage(file);
+        string physicalPath = Path.GetFileName(file.FileName);
+        saveImage(file);
         
         if (HttpContext.Session.GetString("NewPost") != null)
         {
@@ -164,8 +169,6 @@ public class ViewDataController : Controller
 
             HttpContext.Session.SetString("NewPost", JsonSerializer.Serialize(newPost));
         }
-
-        return RedirectToAction("AddPost");
     }
 
     public IActionResult ViewPosts()

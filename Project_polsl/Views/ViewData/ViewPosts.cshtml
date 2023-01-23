@@ -1,4 +1,5 @@
-﻿@model List<Post>
+﻿@using System.Text.Json
+@model List<Post>
 
 @{
     var posts = Model;
@@ -16,6 +17,7 @@
         <tr>
             <th>Post Title</th>
             <th>Posted</th>
+            <th>Edited</th>
             <th>Actions</th>
         </tr>
         @if (posts.Count() > 0)
@@ -25,8 +27,11 @@
                 <tr>
                     <td>@post.Title</td>
                     <td>@post.CreationDate</td>
-                    <td>
+                    <td>@post.EditDate</td>
+                    <td class="flex" style="column-gap: 20px;">
                         <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "Post", new { title = post.Title, createdAt = post.CreationDate })'"/>
+                        <input type="button" value="Edit" onclick="location.href='@Url.Action("EditPost", "Post", new { id = post.Id })'" />
+                        <input type="button" value="View" onclick="location.href='@Url.Action("ViewPost", "Post", new { id = post.Id })'" />
                     </td>
                 </tr>
             }

@@ -16,7 +16,7 @@ $('#newPostTitle').focusout(function() {
 $('.section-text').focusout(function() {
     $.ajax({
         url: '/ViewData/UpdateSection',
-        data: { "text" : $(this).val(), "id": $(this).attr("id") },
+        data: { "text" : $(this).val(), "id": $(this).attr("id")},
         type: 'POST',
         success: function () {
             location.reload();

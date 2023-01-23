@@ -13,11 +13,29 @@ public class NewPost
         PostSections = new PostSection[]{};
     }
 
+    public NewPost(Post post, PostSection[] postSections)
+    {
+        PostData = post;
+        PostSections = postSections;
+    }
+
     public PostSection[] GetSections()
     {
         return PostSections;
     }
 
+    public int[] GetSectionIds()
+    {
+        var ids = new List<int>();
+
+        foreach (var postSection in PostSections)
+        {
+            ids.Add(postSection.Id);
+        }
+        
+        return ids.ToArray();
+    }
+    
     public string GetTitle()
     {
         return PostData.Title;
@@ -71,6 +89,7 @@ public class NewPost
     {
         PostData.Title = title;
         PostData.CreationDate = createdAt;
+        PostData.EditDate = createdAt;
         
         return this;
     }
