@@ -18,7 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var posts = _context.Posts.OrderBy(post => post.CreationDate).Take(3).ToList();
+        var posts = _context.Posts.OrderByDescending(post => post.CreationDate).Take(3).ToList();
         return View(posts);
     }
 

@@ -16,7 +16,7 @@ $('#newPostTitle').focusout(function() {
 $('.section-text').focusout(function() {
     $.ajax({
         url: '/ViewData/UpdateSection',
-        data: { "text" : $(this).val(), "id": $(this).attr("id")},
+        data: { "text" : $(this).val(), "id": $(this).attr("id") },
         type: 'POST',
         success: function () {
             location.reload();
@@ -42,3 +42,14 @@ $('.image-input').change(function () {
         }
     });
 })
+
+
+$('#filter-posts').click(function () {
+    var filterValue = $('#post-filter').val();
+    
+    if (!filterValue.length) {
+        location.href = `/Post/AllPosts/%3F`;
+    } else {
+        location.href = `/Post/AllPosts/${filterValue}`;
+    }
+});

@@ -15,7 +15,7 @@
     </div>
     <table class="users-table">
         <tr>
-            <th>Post Title</th>
+            <th>Title</th>
             <th>Posted</th>
             <th>Edited</th>
             <th>Actions</th>
@@ -24,6 +24,7 @@
         {
             foreach (var post in posts)
             {
+                Console.WriteLine(JsonSerializer.Serialize(post));
                 <tr>
                     <td>@post.Title</td>
                     <td>@post.CreationDate</td>

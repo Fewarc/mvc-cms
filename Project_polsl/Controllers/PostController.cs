@@ -63,11 +63,17 @@ public class PostController : Controller
         
         return View(post);
     }
-
-    public IActionResult AllPosts()
+    
+    [Route("Post/AllPosts/{filter}")]
+    public IActionResult AllPosts(string filter = "")
     {
-        var posts = _context.Posts.ToList();
-        
+        var posts = _context.Posts.OrderByDescending(post => post.CreationDate).ToList();
+
+        if (filter.Length > 0 && filter != "?")
+        {
+            posts = posts.FindAll(post => post.Title.Contains(filter));
+        }
+
         return View(posts);
     }
 
